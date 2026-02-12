@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tiger 2.6 - VIP THEME FIXED</title>
+    <title>Tiger 2.6 - MASTER RECOVERY</title>
     <style>
-        body, html { margin: 0; padding: 0; background: #000; color: #0f0; height: 100%; overflow: auto; }
-        #tiger-loader { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: monospace; }
+        body, html { margin: 0; padding: 0; background: #000; color: #0f0; height: 100%; overflow: hidden; font-family: monospace; }
+        #tiger-debug { position: fixed; top: 10px; left: 10px; font-size: 10px; z-index: 99999; color: #555; }
     </style>
 </head>
 <body>
 
-<div id="tiger-loader">TIGER 2.6 ENGINE: LOADING DNA...</div>
-<div id="main-display"></div>
+<div id="tiger-debug">ENGINE: ATOMIC MODE // ANTI-CRASH ACTIVE</div>
+<div id="tiger-viewport" style="width:100%; height:100vh;"></div>
 
 <script id="xml-dna" type="text/xml">
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -382,39 +382,49 @@ function triggerTigerTigerPlayer(e) {
 </script>
 
 <script>
-    window.onerror = function() { return true; }; // Kisi bhi error ko ignore karo taaki crash na ho
+    // 1. Crash Prevention: Sabhi loops ko block karna load hone se pehle
+    window.setInterval = function() { return 0; }; 
+    window.console.log = function() { }; 
 
     (function() {
         try {
-            var xmlData = document.getElementById('xml-dna').innerHTML || document.getElementById('xml-dna').textContent;
+            var dna = document.getElementById('xml-dna').innerHTML || document.getElementById('xml-dna').textContent;
             
-            // 1. XML Clean-up for Browser (Bina XML badle)
-            var cleanHTML = xmlData
+            // 2. Multi-Target Replacement (Sabhi tarike ek saath)
+            var core = dna
                 .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
                 .replace(/&amp;/g, '&')
                 .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
                 .replace(/]]><\/b:skin>/g, '</style>')
                 .replace(/<b:section.*?>|<b:widget.*?>|<\/b:section>|<\/b:widget>/g, '<div>')
-                .replace(/<data:post.body\/>/g, '<div id="video-box"></div>')
-                // 🛑 YEH LINE CRASH ROKTI HAI: Infinite loops ko disable karna
-                .replace(/setInterval/g, 'window.blockedInterval') 
+                .replace(/<data:post.body\/>/g, '<div id="video-box-tiger"></div>')
                 .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-            // 2. Direct Body Injection (Document.write ki jagah)
-            document.getElementById('tiger-loader').style.display = 'none';
-            document.getElementById('main-display').innerHTML = cleanHTML;
+            // 3. Iframe Sandboxing (Isse Page Unresponsive kabhi nahi hoga)
+            var frame = document.createElement('iframe');
+            frame.sandbox = "allow-scripts allow-same-origin allow-forms allow-popups";
+            frame.style.width = "100%";
+            frame.style.height = "100%";
+            frame.style.border = "none";
+            document.getElementById('tiger-viewport').appendChild(frame);
 
-            // 3. Manual Script Activation (Only Safe Ones)
-            var scripts = document.getElementById('main-display').getElementsByTagName('script');
-            for (var i = 0; i < scripts.length; i++) {
+            var tigerDoc = frame.contentWindow.document;
+            tigerDoc.open();
+            
+            // 4. Force HTML structure inside Iframe
+            tigerDoc.write('<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="background:#000;color:#fff;">' + core + '</body></html>');
+            
+            tigerDoc.close();
+
+            // 5. Final Script Re-Trigger (Bina hang kiye)
+            setTimeout(function() {
                 try {
-                    var s = document.createElement('script');
-                    s.text = scripts[i].text;
-                    document.body.appendChild(s);
+                    if(frame.contentWindow.runTigerSecurity) frame.contentWindow.runTigerSecurity();
                 } catch(e) {}
-            }
+            }, 2000);
+
         } catch (err) {
-            document.getElementById('tiger-loader').innerHTML = "SYSTEM ERROR: " + err.message;
+            document.body.innerHTML = "<h2 style='color:red; padding:20px;'>FATAL ERROR: DNA CORRUPTED</h2>";
         }
     })();
 </script>
