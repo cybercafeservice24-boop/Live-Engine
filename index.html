@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiger 2.6 - Universal Live Engine</title>
+    <meta charset="UTF-8"/>
+    <title>Tiger 2.6 - VIP THEME</title>
+    <style>body,html{margin:0;padding:0;height:100%;overflow:hidden;background:#000;}</style>
 </head>
-<body style="margin:0; padding:0; background:#000;">
+<body>
 
-<script id="tiger-dna-store" type="text/xml">
+<script id="xml-dna" type="text/xml">
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -375,57 +375,42 @@ function triggerTigerTigerPlayer(e) {
 </html>
 </script>
 
-<div id="tiger-render-viewport"></div>
+<div id="render-target" style="width:100%;height:100vh;"></div>
 
 <script>
     (function() {
-        // 1. RAW DNA EXTRACTION
-        var xmlStore = document.getElementById('tiger-dna-store');
-        var rawData = xmlStore.innerHTML || xmlStore.textContent;
-
-        // 2. AUTOMATIC PARSING LOGIC (SABHI TARIKE EK SAATH)
-        var engine = rawData
+        var xmlContent = document.getElementById('xml-dna').innerHTML || document.getElementById('xml-dna').textContent;
+        
+        // 1. XML ko decode karke HTML compatible banana
+        var result = xmlContent
             .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
             .replace(/&amp;/g, '&')
-            // CSS Setup (Blogger Skin)
             .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
             .replace(/]]><\/b:skin>/g, '</style>')
-            // Layout Setup (Sections/Widgets)
-            .replace(/<b:section(.*?)>/g, '<div class="tiger-section" $1>')
-            .replace(/<\/b:section>/g, '</div>')
-            .replace(/<b:widget(.*?)>/g, '<div class="tiger-widget" $1>')
-            .replace(/<\/b:widget>/g, '</div>')
-            // Conditional Tags Control
-            .replace(/<b:if(.*?)>/g, '').replace(/<\/b:if>/g, '') 
-            .replace(/<b:loop(.*?)>/g, '').replace(/<\/b:loop>/g, '')
-            // Logic/Data Tags
-            .replace(/<data:post.body\/>/g, '<div id="tiger-video-box"></div>')
-            .replace(/<b:include(.*?)\/>/g, '')
-            // Global Scripts Activation
+            .replace(/<b:section.*?>|<b:widget.*?>|<\/b:section>|<\/b:widget>/g, '<div>')
+            .replace(/<data:post.body\/>/g, '<div id="video-box"></div>')
             .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-        // 3. FORCE RENDER
-        document.open();
-        document.write(engine);
-        document.close();
+        // 2. Iframe Create karna taaki Main Page hang na ho (Crash-Proof)
+        var iframe = document.createElement('iframe');
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "none";
+        document.getElementById('render-target').appendChild(iframe);
 
-        // 4. AUTO-SCRIPT RE-IGNITION (Jitne scripts hain unhe dhund kar dobara chalana)
-        setTimeout(function() {
-            var scripts = document.getElementsByTagName('script');
-            for (var i = 0; i < scripts.length; i++) {
-                if (scripts[i].id !== 'tiger-dna-store' && scripts[i].innerHTML) {
-                    try {
-                        var newScript = document.createElement('script');
-                        newScript.text = scripts[i].innerHTML;
-                        document.body.appendChild(newScript);
-                    } catch (err) { console.log("Script Fix Active"); }
-                }
+        // 3. Iframe ke andar content likhna
+        var doc = iframe.contentWindow.document;
+        doc.open();
+        doc.write(result);
+        doc.close();
+
+        // 4. Scripts ko jagana bina crash kiye
+        setTimeout(function(){
+            if(iframe.contentWindow.runTigerSecurity) {
+                iframe.contentWindow.runTigerSecurity();
             }
-            // Tiger 18+ Security Activation
-            if(typeof runTigerSecurity === 'function') runTigerSecurity();
-        }, 800);
+        }, 1500);
     })();
 </script>
-
 </body>
 </html>
