@@ -27,10 +27,18 @@ function googleTranslateElementInit() {
 }
 
 function translateSite(langCode) {
-    var select = document.querySelector('.goog-te-combo');
-    if (select) {
-        select.value = langCode;
-        select.dispatchEvent(new Event('change'));
+    var tigerCore = document.querySelector('.goog-te-combo');
+    if (tigerCore) {
+        tigerCore.value = langCode;
+        tigerCore.dispatchEvent(new Event('change'));
+    } else {
+        setTimeout(function() {
+            var retry = document.querySelector('.goog-te-combo');
+            if (retry) {
+                retry.value = langCode;
+                retry.dispatchEvent(new Event('change'));
+            }
+        }, 1000);
     }
 }
 
@@ -111,7 +119,6 @@ async function runTigerSecurity() {
         startHighTrafficCounter();
         tigerGlobalEngine();
         tigerUniversalMapping();
-        // 🐯 TIGER 2.6: Load Smart Content without deleting old structure
         tigerLoadPersistentHome();
     }
 }
@@ -132,7 +139,6 @@ function triggerEarning() {
     }
 }
 
-// 🐯 TIGER 2.6: UPDATED SMART FUNCTIONS (Zero Deletion Policy)
 function tigerSaveInt(query) { localStorage.setItem('tiger_int', query); }
 
 function tigerSearch(q) {
@@ -148,7 +154,6 @@ function tigerSearch(q) {
 function tigerLoadPersistentHome() {
     const last = localStorage.getItem('tiger_int') || 'LATEST UPDATES';
     renderTigerData('tiger-home-main-grid', 30, last);
-    // Attach search logic to existing theme elements
     const sBtn = document.querySelector('.search-bar-pro button');
     const sInp = document.querySelector('.search-bar-pro input');
     if(sBtn) sBtn.onclick = function() { tigerSearch(sInp.value); };
@@ -168,7 +173,6 @@ function showTigerPlayer(niche) {
     document.getElementById('tiger-home-grid-area').style.display = 'none';
     document.getElementById('tiger-player-area').style.display = 'block';
     
-    // xHamster Style Suggestions
     const sTitle = document.getElementById('suggested-title');
     const sGrid = document.getElementById('tiger-master-grid');
     sTitle.innerHTML = "🔥 SIMILAR VIDEOS FOR YOU";
@@ -215,8 +219,26 @@ window.onload = function() { runTigerSecurity(); };
 
 <style>
 /* 🐯 TIGER RESPONSIVE CSS - RAW DNA */
-#navbar-iframe, .navbar, .report_abuse, .skiptranslate, .widget-item-control, .goog-te-banner-frame { display: none !important; }
-body { top: 0 !important; background: #000; color: #fff; font-family: 'Roboto', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+#navbar-iframe, .navbar, .report_abuse, .widget-item-control { display: none !important; }
+.goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame, .goog-te-menu-frame, .skiptranslate { display: none !important; visibility: hidden !important; }
+.goog-text-highlight { background: transparent !important; box-shadow: none !important; }
+
+body { top: 0 !important; position: static !important; background: #000; color: #fff; font-family: 'Roboto', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+
+/* 🐯 ULTIMATE FOOTER & LEGAL STYLES */
+.tiger-footer-pro { background: #050505; border-top: 3px solid #ff0000; padding: 60px 20px 30px; text-align: center; margin-top: 50px; }
+.social-icons-wrap { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+.social-btn { width: 40px; height: 40px; background: #111; border: 1px solid #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; font-size: 18px; transition: 0.3s; }
+.social-btn:hover { background: #ff0000; transform: translateY(-5px); border-color: #fff; }
+
+.hindi-disclaimer { max-width: 850px; margin: 25px auto; color: #aaa; font-size: 13px; line-height: 1.6; border-left: 4px solid #ff0000; padding-left: 15px; text-align: left; }
+.trust-shield { display: inline-flex; align-items: center; gap: 8px; background: #000; padding: 12px 25px; border-radius: 50px; border: 1px solid #ffcc00; color: #ffcc00; font-weight: bold; font-size: 11px; margin-bottom: 20px; text-transform: uppercase; }
+.verify-badge { color: #00ff00; font-size: 14px; }
+
+.f-links a { color: #fff; text-decoration: none; margin: 0 12px; font-size: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+.f-links a:hover { color: #ff0000; }
+
+/* Rest of existing styles... */
 .player-box { background:#000; width:100%; max-width: 1000px; margin: 0 auto; aspect-ratio:16/9; position:relative; overflow:hidden; border: 1px solid #222; }
 .tiger-video-wrap { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; }
 .tiger-video-wrap iframe, .tiger-video-wrap video { width: 100% !important; height: 100% !important; border: none; object-fit: contain; }
@@ -245,7 +267,7 @@ header { background: #000; padding: 10px 4%; border-bottom: 2px solid #ff0000; p
 .search-bar-pro { display: flex; background: #111; border: 1px solid #333; border-radius: 25px; overflow: hidden; }
 .search-bar-pro input { flex: 1; padding: 10px 15px; background: transparent; border: none; color: #fff; outline: none; }
 .search-bar-pro button { background: #ff0000; border: none; color: #fff; padding: 0 20px; cursor: pointer; }
-.lang-drop-pro { background: #111; color: #fff; border: 1px solid #333; padding: 8px; border-radius: 20px; font-size: 12px; cursor: pointer; }
+.lang-drop-pro { background: #111; color: #fff; border: 1px solid #ff0000; padding: 8px 15px; border-radius: 20px; font-size: 12px; cursor: pointer; outline: none; }
 .nav-scroll { display: flex; gap: 8px; padding: 12px 4%; overflow-x: auto; scrollbar-width: none; background: #080808; border-bottom: 1px solid #111; }
 .nav-btn { background: #111; color: #fff; padding: 8px 18px; border-radius: 20px; font-size: 11px; text-decoration: none; border: 1px solid #1a1a1a; font-weight: 900; white-space: nowrap; text-transform: uppercase; }
 .fake-controls { position: absolute; bottom: 0; left: 0; width: 100%; height: 45px; background: linear-gradient(transparent, rgba(0,0,0,0.95)); display: flex; align-items: center; padding: 0 15px; gap: 15px; font-size: 14px; color: #fff; pointer-events: none; }
@@ -255,9 +277,9 @@ header { background: #000; padding: 10px 4%; border-bottom: 2px solid #ff0000; p
 .btn-act { background: #111; color: #fff; padding: 12px 2px; border-radius: 6px; font-size: 10px; text-align: center; border: 1px solid #222; font-weight: 900; cursor: pointer; text-transform: uppercase; }
 .tiger-proof { background: #050505; padding: 8px 15px; display: flex; justify-content: space-between; font-size: 12px; border-bottom: 1px solid #111; }
 .live-dot { color: #ff0000; font-weight: bold; animation: blink 1s infinite; }
-footer { background: #000; padding: 60px 8%; border-top: 2px solid #ff0000; text-align: center; margin-top: 40px; }
-.modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:1000000; align-items:center; justify-content:center; }
-.modal-box { background:#111; padding:30px; border:1px solid #333; border-radius:15px; max-width:600px; width:90%; position:relative; }
+
+.modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:1000000; align-items:center; justify-content:center; }
+.modal-box { background:#111; padding:30px; border:2px solid #222; border-radius:15px; max-width:650px; width:90%; position:relative; box-shadow: 0 0 20px #ff0000; }
 .close-x { position:absolute; top:15px; right:15px; color:#fff; font-size:24px; cursor:pointer; }
 </style>
 </head>
@@ -296,6 +318,7 @@ footer { background: #000; padding: 60px 8%; border-top: 2px solid #ff0000; text
 <option value='ru'>Russian (Русский)</option>
 <option value='fr'>French (Français)</option>
 <option value='ja'>Japanese (日本語)</option>
+<option value='pt'>Portuguese (Português)</option>
 </select>
 </div>
 </header>
@@ -363,18 +386,48 @@ const card = (clickAction, label) => `
 </script>
 </div>
 
-<footer>
-<div class='f-brand'>DESI SEXY 18+ HD VIP NETWORK</div>
-<div class='f-links'>
-<a onclick='openLegal("pop-dmca")'>DMCA</a> | <a onclick='openLegal("pop-privacy")'>Privacy</a> | <a onclick='openLegal("pop-contact")'>Contact</a> | <a onclick='openLegal("pop-18")'>18+ Compliance</a>
-</div>
+<footer class="tiger-footer-pro">
+    <div class="social-icons-wrap">
+        <a class="social-btn" href="https://t.me/sexyxx1222" target="_blank">✈️</a>
+        <a class="social-btn" href="#">𝕏</a>
+        <a class="social-btn" href="#">📸</a>
+        <a class="social-btn" href="#">🤖</a>
+    </div>
+
+    <div style="font-size:24px; font-weight:900; color:#ff0000; letter-spacing:1px; margin-bottom:15px;">
+        TIGER <span style="color:#fff;">2.6</span> <span style="font-size:12px; color:#ffcc00; border:1px solid #ffcc00; padding:2px 6px; border-radius:4px; margin-left:5px;">OFFICIAL</span>
+    </div>
+
+    <div class="trust-shield">
+        🔒 SSL SECURED | ✅ VERIFIED BY TIGER-DNA-SYSTEM <span class="verify-badge">✔</span>
+    </div>
+
+    <div class="hindi-disclaimer">
+        <b>चेतावनी (Disclaimer):</b> टाइगर 2.6 एक वयस्क मनोरंजन मंच है। इस साइट पर सभी सामग्री 18 वर्ष या उससे अधिक आयु के वयस्कों के लिए है। हम अवैध सामग्री के खिलाफ शून्य-सहिष्णुता नीति रखते हैं। सभी कलाकार फिल्मांकन के समय कानूनी रूप से वयस्क थे। साइट का उपयोग करके, आप हमारी शर्तों से सहमत होते हैं।
+    </div>
+
+    <div style="max-width:850px; margin:0 auto 30px; color:#666; font-size:11px; line-height:1.8;">
+        Tiger 2.6 is a globally optimized adult search engine. By accessing this site, you certify that you are of legal age in your jurisdiction (18+). We operate using <b>Point 21 Ghost Mode</b> for maximum privacy and security. All record-keeping requirements are maintained as per USC 2257.
+    </div>
+
+    <div class='f-links'>
+        <a onclick='openLegal("pop-dmca")'>DMCA</a>
+        <a onclick='openLegal("pop-privacy")'>PRIVACY POLICY</a>
+        <a onclick='openLegal("pop-contact")'>CONTACT US</a>
+        <a onclick='openLegal("pop-18")'>18+ COMPLIANCE</a>
+    </div>
+
+    <div style="margin-top:40px; border-top:1px solid #111; padding-top:20px; color:#333; font-size:10px; text-transform:uppercase; letter-spacing:2px;">
+        © 2026 <b>Tiger 2.6 Premium Network</b>. All Rights Reserved.
+    </div>
 </footer>
+
 </div>
 
-<div class='modal-overlay' id='pop-dmca'><div class='modal-box'><span class='close-x' onclick='closeLegal("pop-dmca")'>×</span><h3>DMCA</h3><p>Removal info.</p></div></div>
-<div class='modal-overlay' id='pop-privacy'><div class='modal-box'><span class='close-x' onclick='closeLegal("pop-privacy")'>×</span><h3>Privacy</h3><p>Policy.</p></div></div>
-<div class='modal-overlay' id='pop-contact'><div class='modal-box'><span class='close-x' onclick='closeLegal("pop-contact")'>×</span><h3>Contact</h3><p>Email: admin@tiger26.com</p></div></div>
-<div class='modal-overlay' id='pop-18'><div class='modal-box'><span class='close-x' onclick='closeLegal("pop-18")'>×</span><h3>18+ Compliance</h3><p>This site contains adult material.</p></div></div>
+<div class='modal-overlay' id='pop-dmca'><div class='modal-box'><span class='close-x' onclick='closeLegal("pop-dmca")'>×</span><h3 style="color:#ff0000;">DMCA Policy</h3><p style="color:#aaa; font-size:13px;">Tiger 2.6 is a search engine and does not host content. We strictly follow DMCA guidelines. For removals, contact admin@tiger26.com.</p></div></div>
+<div class='modal-overlay' id='pop-privacy'><div class='modal-box'><span class='close-x' onclick='closeLegal("pop-privacy")'>×</span><h3 style="color:#ff0000;">Privacy Shield</h3><p style="color:#aaa; font-size:13px;">Our Ghost Mode ensures your IP is rotated via residential proxies. No logs are kept of your personal browsing history.</p></div></div>
+<div class='modal-overlay' id='pop-contact'><div class='modal-box'><span class='close-x' onclick='closeLegal("pop-contact")'>×</span><h3 style="color:#ff0000;">Direct Contact</h3><p style="color:#aaa; font-size:13px;">Telegram: @sexyxx1222<br>Email: admin@tiger26.com</p></div></div>
+<div class='modal-overlay' id='pop-18'><div class='modal-box'><span class='close-x' onclick='closeLegal("pop-18")'>×</span><h3 style="color:#ff0000;">18+ Compliance</h3><p style="color:#aaa; font-size:13px;">All models on this site are 18+. This site follows USC 2257 record-keeping regulations for all adult content linked.</p></div></div>
 
 <script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit' type='text/javascript'></script>
 </body>
