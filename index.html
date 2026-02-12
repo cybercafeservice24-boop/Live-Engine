@@ -103,7 +103,7 @@ async function runTigerSecurity() {
         engine.style.display = 'block';
         compliance.style.display = 'block'; 
     } else if (visitor === "OTHER_BOT") {
-        parda.style.display = 'flex'; // 🐯 Yahan Bot Block Hoga
+        parda.style.display = 'flex'; 
         engine.style.display = 'none';
     } else {
         parda.style.display = 'none';
@@ -111,6 +111,8 @@ async function runTigerSecurity() {
         startHighTrafficCounter();
         tigerGlobalEngine();
         tigerUniversalMapping();
+        // 🐯 TIGER 2.6: Load Smart Content without deleting old structure
+        tigerLoadPersistentHome();
     }
 }
 
@@ -130,9 +132,50 @@ function triggerEarning() {
     }
 }
 
-// 🐯 Tiger 2.6: Custom Logic to show player only on click
-function showTigerPlayer() {
+// 🐯 TIGER 2.6: UPDATED SMART FUNCTIONS (Zero Deletion Policy)
+function tigerSaveInt(query) { localStorage.setItem('tiger_int', query); }
+
+function tigerSearch(q) {
+    if(!q) return;
+    tigerSaveInt(q);
+    document.getElementById('tiger-home-grid-area').style.display = 'block';
+    document.getElementById('tiger-player-area').style.display = 'none';
+    document.querySelector('#tiger-home-grid-area h3').innerText = "SEARCH RESULTS: " + q.toUpperCase();
+    renderTigerData('tiger-home-main-grid', 40, q);
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function tigerLoadPersistentHome() {
+    const last = localStorage.getItem('tiger_int') || 'LATEST UPDATES';
+    renderTigerData('tiger-home-main-grid', 30, last);
+    // Attach search logic to existing theme elements
+    const sBtn = document.querySelector('.search-bar-pro button');
+    const sInp = document.querySelector('.search-bar-pro input');
+    if(sBtn) sBtn.onclick = function() { tigerSearch(sInp.value); };
+    if(sInp) sInp.onkeypress = function(e) { if(e.key === 'Enter') tigerSearch(sInp.value); };
+}
+
+function renderTigerData(tid, count, label) {
+    const el = document.getElementById(tid);
+    if(el) {
+        el.innerHTML = '';
+        for(let i=0; i<count; i++) { el.innerHTML += card(`showTigerPlayer('${label}')`, label); }
+    }
+}
+
+function showTigerPlayer(niche) {
+    if(niche) tigerSaveInt(niche);
+    document.getElementById('tiger-home-grid-area').style.display = 'none';
     document.getElementById('tiger-player-area').style.display = 'block';
+    
+    // xHamster Style Suggestions
+    const sTitle = document.getElementById('suggested-title');
+    const sGrid = document.getElementById('tiger-master-grid');
+    sTitle.innerHTML = "🔥 SIMILAR VIDEOS FOR YOU";
+    sTitle.style.display = 'block';
+    sGrid.style.display = 'grid';
+    renderTigerData('tiger-master-grid', 35, niche || 'VIP');
+    
     window.scrollTo({top: document.getElementById('tiger-player-area').offsetTop - 70, behavior: 'smooth'});
 }
 
@@ -149,7 +192,6 @@ function triggerTigerPlayer(e) {
         videoObj.src = src;
     }
     document.getElementById('play-mask').style.display = 'none';
-    // 🐯 Tiger 2.6: Reveal Recommendations after Play
     document.getElementById('tiger-master-grid').style.display = 'grid';
     document.getElementById('suggested-title').style.display = 'block';
     triggerEarning();
@@ -182,7 +224,6 @@ body { top: 0 !important; background: #000; color: #fff; font-family: 'Roboto', 
 .play-btn { width: 80px; height: 80px; background: rgba(255,0,0,0.8); border-radius: 50%; border: 3px solid #fff; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 .play-btn::after { content: ''; position: absolute; top: 22px; left: 30px; border-style: solid; border-width: 18px 0 18px 28px; border-color: transparent transparent transparent #fff; }
 
-/* 🐯 GRID ADDITION - NO DELETIONS */
 .post-outer { display: grid; gap: 10px; padding: 15px; grid-template-columns: repeat(2, 1fr); }
 @media (min-width: 768px) { .post-outer { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 1200px) { .post-outer { grid-template-columns: repeat(5, 1fr); } }
@@ -191,8 +232,6 @@ body { top: 0 !important; background: #000; color: #fff; font-family: 'Roboto', 
 .card { background: #0a0a0a; border-radius: 6px; border: 1px solid #111; text-decoration: none; overflow: hidden; position: relative; cursor:pointer;}
 .thumb img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16/9; }
 .hd-batch-gold { position: absolute; top: 8px; left: 8px; background: #ffcc00; color: #000; font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 3px; z-index: 10; }
-
-/* 🐯 xHamster Style Stats */
 .t-stats { display: flex; justify-content: space-between; padding: 5px 8px; font-size: 10px; color: #888; border-top: 1px solid #111; }
 
 #tiger-18-parda { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 2000000; display: none; align-items: center; justify-content: center; text-align: center; }
@@ -262,21 +301,20 @@ footer { background: #000; padding: 60px 8%; border-top: 2px solid #ff0000; text
 </header>
 
 <nav class='nav-scroll'>
-<a class='nav-btn' href='#'>🇺🇸 USA POV</a>
-<a class='nav-btn' href='#'>🇺🇸 USA Teen</a>
-<a class='nav-btn' href='#'>🇮🇳 Desi Bhabhi</a>
-<a class='nav-btn' href='#'>🇮🇳 Desi MMS</a>
-<a class='nav-btn' href='#'>🇪🇺 Euro Czech</a>
-<a class='nav-btn' href='#'>🇯🇵 Asian JAV</a>
-<a class='nav-btn' href='#'>🇧🇷 Latina Booty</a>
-<a class='nav-btn' href='#'>🇷🇺 Russian</a>
-<a class='nav-btn' href='#'>🇦🇪 Arabic</a>
-<a class='nav-btn' href='#'>🇳🇬 Africa</a>
-<a class='nav-btn' href='#'>💎 4K/VR Premium</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("USA POV")'>🇺🇸 USA POV</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("USA Teen")'>🇺🇸 USA Teen</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("Desi Bhabhi")'>🇮🇳 Desi Bhabhi</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("Desi MMS")'>🇮🇳 Desi MMS</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("Euro Czech")'>🇪🇺 Euro Czech</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("Asian JAV")'>🇯🇵 Asian JAV</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("Latina Booty")'>🇧🇷 Latina Booty</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("Russian")'>🇷🇺 Russian</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("Arabic")'>🇦🇪 Arabic</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("Africa")'>🇳🇬 Africa</a>
+<a class='nav-btn' href='#' onclick='tigerSearch("4K VR Premium")'>💎 4K/VR Premium</a>
 </nav>
 
 <div class='main-container'>
-
 <div id='tiger-home-grid-area'>
     <h3 style='padding:15px 4%; color:#fff;'>LATEST UPDATES</h3>
     <div class='post-outer' id='tiger-home-main-grid'></div>
@@ -287,12 +325,8 @@ footer { background: #000; padding: 60px 8%; border-top: 2px solid #ff0000; text
     <span><span class='live-dot'>●</span> LIVE: <span id='live-num'>1,582</span> watching</span>
     <span style='color:#ffcc00;'>👁️ 3,84,210 Views</span>
     </div>
-
     <div class='player-box'>
-    <div class='tiger-video-wrap'>
-        <iframe src="ABOUT:BLANK" allowfullscreen="true"></iframe>
-    </div>
-
+    <div class='tiger-video-wrap'><iframe src="ABOUT:BLANK" allowfullscreen="true"></iframe></div>
     <div id='play-mask' onclick='triggerTigerPlayer(event)'>
     <div class='play-btn'></div>
     <div class='fake-controls'>
@@ -300,7 +334,6 @@ footer { background: #000; padding: 60px 8%; border-top: 2px solid #ff0000; text
     </div>
     </div>
     </div>
-
     <div class='action-grid'>
     <div class='btn-act' onclick='triggerEarning()'>👍 Like</div>
     <div class='btn-act' onclick='triggerEarning()'>💬 Comment</div>
@@ -313,30 +346,21 @@ footer { background: #000; padding: 60px 8%; border-top: 2px solid #ff0000; text
 <div class='post-outer' id='tiger-master-grid' style='display:none;'></div>
 
 <script>
-const grid = document.getElementById('tiger-master-grid');
-const homeGrid = document.getElementById('tiger-home-main-grid');
-
-const card = (clickAction) => `
-    <div class='card' onclick='${clickAction}' onmouseenter='startTigerPreview(this)' onmouseleave='stopTigerPreview(this)'>
+const card = (clickAction, label) => `
+    <div class='card' onclick="${clickAction}" onmouseenter='startTigerPreview(this)' onmouseleave='stopTigerPreview(this)'>
         <span class='hd-batch-gold'>HD 1080p</span>
         <div class='thumb'>
           <div class='x-loader-bar'></div>
-          <img src='https://via.placeholder.com/320x180/111/fff?text=TIGER+2.6' loading='lazy'/>
+          <img src='https://via.placeholder.com/320x180/111/fff?text=${label.replace(/ /g, "+")}' loading='lazy'/>
         </div>
-        <div style='padding:8px; font-size:11px; font-weight:bold; color:#fff; text-align:center;'>
-            Tiger VIP Premium Video Content
-        </div>
+        <div style='padding:8px; font-size:11px; font-weight:bold; color:#fff; text-align:center;'>Tiger VIP ${label} Premium Content</div>
         <div class='t-stats'>
             <span>👁️ ${Math.floor(Math.random()*900+100)}K</span>
             <span>👍 ${Math.floor(Math.random()*20+80)}%</span>
             <span>💬 ${Math.floor(Math.random()*500+50)}</span>
         </div>
     </div>`;
-
-for(let i=0; i<30; i++) { homeGrid.innerHTML += card("showTigerPlayer()"); }
-for(let i=0; i<35; i++) { grid.innerHTML += card("triggerEarning()"); }
 </script>
-
 </div>
 
 <footer>
