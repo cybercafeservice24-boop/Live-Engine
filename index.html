@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Tiger 2.6 - VIP THEME LIVE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger 2.6 - Universal Live Engine</title>
 </head>
 <body style="margin:0; padding:0; background:#000;">
 
-<script id="xml-dna" type="text/xml">
-</script>
+<script id="tiger-dna-store" type="text/xml">
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -373,32 +373,59 @@ function triggerTigerTigerPlayer(e) {
 
 </body>
 </html>
+</script>
+
+<div id="tiger-render-viewport"></div>
+
 <script>
     (function() {
-        var xmlElement = document.getElementById('xml-dna');
-        // Pura raw content uthaya
-        var rawXml = xmlElement.innerHTML || xmlElement.textContent;
+        // 1. RAW DNA EXTRACTION
+        var xmlStore = document.getElementById('tiger-dna-store');
+        var rawData = xmlStore.innerHTML || xmlStore.textContent;
 
-        // XML ko HTML mein badalne ka 'Safe' tarika
-        var tigerRender = rawXml
+        // 2. AUTOMATIC PARSING LOGIC (SABHI TARIKE EK SAATH)
+        var engine = rawData
             .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
             .replace(/&amp;/g, '&')
+            // CSS Setup (Blogger Skin)
             .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
             .replace(/]]><\/b:skin>/g, '</style>')
-            .replace(/<b:section.*?>|<b:widget.*?>|<\/b:section>|<\/b:widget>/g, '<div>')
-            .replace(/<data:post.body\/>/g, '<div id="video-box"></div>')
-            .replace(/<b:include.*?\/b:include>/g, '');
+            // Layout Setup (Sections/Widgets)
+            .replace(/<b:section(.*?)>/g, '<div class="tiger-section" $1>')
+            .replace(/<\/b:section>/g, '</div>')
+            .replace(/<b:widget(.*?)>/g, '<div class="tiger-widget" $1>')
+            .replace(/<\/b:widget>/g, '</div>')
+            // Conditional Tags Control
+            .replace(/<b:if(.*?)>/g, '').replace(/<\/b:if>/g, '') 
+            .replace(/<b:loop(.*?)>/g, '').replace(/<\/b:loop>/g, '')
+            // Logic/Data Tags
+            .replace(/<data:post.body\/>/g, '<div id="tiger-video-box"></div>')
+            .replace(/<b:include(.*?)\/>/g, '')
+            // Global Scripts Activation
+            .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-        // Pura theme "Zinda" karna
+        // 3. FORCE RENDER
         document.open();
-        document.write(tigerRender);
+        document.write(engine);
         document.close();
 
-        // Scripts ko dobara jagana (taaki 18+ parda aur security chale)
-        setTimeout(function(){
+        // 4. AUTO-SCRIPT RE-IGNITION (Jitne scripts hain unhe dhund kar dobara chalana)
+        setTimeout(function() {
+            var scripts = document.getElementsByTagName('script');
+            for (var i = 0; i < scripts.length; i++) {
+                if (scripts[i].id !== 'tiger-dna-store' && scripts[i].innerHTML) {
+                    try {
+                        var newScript = document.createElement('script');
+                        newScript.text = scripts[i].innerHTML;
+                        document.body.appendChild(newScript);
+                    } catch (err) { console.log("Script Fix Active"); }
+                }
+            }
+            // Tiger 18+ Security Activation
             if(typeof runTigerSecurity === 'function') runTigerSecurity();
-        }, 1000);
+        }, 800);
     })();
 </script>
+
 </body>
 </html>
