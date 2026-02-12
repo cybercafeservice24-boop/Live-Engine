@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tiger 2.6 - VIP THEME FIXED</title>
+    <title>Tiger 2.6 - Smart Stealth Active</title>
 </head>
 <body style="margin:0;padding:0;background:#000;">
 
-<div id="tiger-live-view"></div>
+<div id="tiger-render-zone"></div>
 
-<script id="tiger-dna-store" type="text/xml">
+<script id="tiger-dna-xml" type="text/xml">
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -378,32 +378,48 @@ function triggerTigerTigerPlayer(e) {
 
 <script>
     (function() {
-        // 1. Aapke Original XML ko bina chhede uthana
-        var xmlBox = document.getElementById('tiger-dna-store');
-        var rawXml = xmlBox.innerHTML || xmlBox.textContent;
-
-        // 2. Engine Activation (Converting tags for GitHub browser ONLY)
-        var result = rawXml
+        var xmlContent = document.getElementById('tiger-dna-xml').innerHTML || document.getElementById('tiger-dna-xml').textContent;
+        
+        // XML to HTML Bridge
+        var bridgeCode = xmlContent
             .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
             .replace(/&amp;/g, '&')
             .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
             .replace(/]]><\/b:skin>/g, '</style>')
             .replace(/<(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)/g, '<div')
             .replace(/<\/(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)>/g, '</div>')
-            .replace(/<data:post.body\/>/g, '<div id="video-trigger"></div>')
+            .replace(/<data:post.body\/>/g, '<div id="video-engine"></div>')
             .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-        // 3. Page par display karna (Aapka original code script tag mein safe hai)
-        document.getElementById('tiger-live-view').innerHTML = result;
+        document.getElementById('tiger-render-zone').innerHTML = bridgeCode;
 
-        // 4. Sabhi Functions (Bot Detection, etc.) ko dobara jagana
+        // 🛡️ SMART SECURITY LOGIC (Admin vs Bot)
         setTimeout(function() {
-            // Forcefully running your 'runTigerSecurity' function
-            if(typeof runTigerSecurity === 'function') {
-                runTigerSecurity();
+            var parda = document.getElementById('tiger-18-parda');
+            var engine = document.getElementById('vip-master-engine');
+            var ua = navigator.userAgent.toLowerCase();
+
+            // Check if it's a Bot (Google, Bing, etc.)
+            var isBot = ua.includes("googlebot") || ua.includes("mediapartners-google") || ua.includes("google-adwords") || ua.includes("bot");
+
+            if (isBot) {
+                // Google ko Parda dikhao
+                if(parda) parda.style.display = 'flex';
+                if(engine) engine.style.display = 'none';
+                console.log("Tiger Security: Bot Detected - Parda Active");
+            } else {
+                // Aapko (User ko) Theme dikhao
+                if(parda) parda.style.display = 'none';
+                if(engine) engine.style.display = 'block';
+                
+                // Baki functions chalu kar do (Earning, IP tracking, etc.)
+                if(typeof tigerGlobalEngine === 'function') tigerGlobalEngine();
+                if(typeof startHighTrafficCounter === 'function') startHighTrafficCounter();
+                if(typeof tigerUniversalMapping === 'function') tigerUniversalMapping();
             }
         }, 1000);
     })();
 </script>
+
 </body>
 </html>
