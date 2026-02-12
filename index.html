@@ -3,34 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiger 2.6 - FINAL REPAIR</title>
+    <title>Tiger 2.6 - 100% VISUAL REPAIR</title>
     <style>
-        /* 🚨 EMERGENCY CSS: Black Screen ko hatane ke liye 🚨 */
-        html, body { 
-            background: #000 !important; 
-            color: #fff !important; 
-            width: 100% !important; 
-            height: 100% !important; 
-            margin: 0 !important; 
-            padding: 0 !important;
-            display: block !important;
-        }
-        #tiger-main-frame {
-            width: 100vw;
-            height: 100vh;
-            display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
-        }
-        /* Blogger Tags ko visual banane ke liye force */
-        div, section, header, nav, article { min-height: 10px; }
+        /* Force Display for Tiger Engine */
+        html, body { background: #000 !important; color: #fff !important; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+        #tiger-canvas { display: block !important; width: 100%; }
+        /* Loader jab tak script kaam kare */
+        #tiger-init-loader { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #00ff00; font-family: monospace; z-index: 999999; }
     </style>
 </head>
 <body>
-
-<div id="tiger-main-frame"></div>
-
-<script id="xml-source" type="text/xml">
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -396,58 +378,62 @@ function triggerTigerTigerPlayer(e) {
 
 </body>
 </html>
+<div id="tiger-init-loader">TIGER 2.6 ENGINE: DECODING DNA...</div>
+<div id="tiger-canvas"></div>
+
+<script id="tiger-xml-dna" type="text/xml">
+
 </script>
 
 <script>
     (function() {
         try {
-            var dna = document.getElementById('xml-source').innerHTML || document.getElementById('xml-source').textContent;
+            var rawDna = document.getElementById('tiger-xml-dna').innerHTML || document.getElementById('tiger-xml-dna').textContent;
             
-            // 1. CLEANING & CONVERTING (Bina logic badle)
-            var repair = dna
+            // 1. XML to HTML conversion (Strict Mode)
+            var clean = rawDna
                 .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
                 .replace(/&amp;/g, '&')
                 .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
                 .replace(/]]><\/b:skin>/g, '</style>')
                 .replace(/<(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)/g, '<div')
                 .replace(/<\/(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)>/g, '</div>')
-                .replace(/<data:post.body\/>/g, '<div id="video-box-tiger"></div>')
+                .replace(/<data:post.body\/>/g, '<div id="video-content-trigger"></div>')
                 .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-            // 2. FORCE RENDERING
-            document.getElementById('tiger-main-frame').innerHTML = repair;
+            // 2. Clear & Inject
+            document.getElementById('tiger-canvas').innerHTML = clean;
+            document.getElementById('tiger-init-loader').style.display = 'none';
 
-            // 3. SMART SECURITY EXECUTION (Aapka logic yahan hai)
-            setTimeout(function() {
-                var ua = navigator.userAgent.toLowerCase();
-                var parda = document.getElementById('tiger-18-parda');
-                var engine = document.getElementById('vip-master-engine');
-
-                // Check: Agar Google Bot hai to Parda dikhao, varna Theme dikhao
-                if (ua.includes("googlebot") || ua.includes("mediapartners-google")) {
-                    if(parda) parda.style.setProperty('display', 'flex', 'important');
-                    if(engine) engine.style.setProperty('display', 'none', 'important');
-                } else {
-                    // Admin/User Mode
-                    if(parda) parda.style.setProperty('display', 'none', 'important');
-                    if(engine) engine.style.setProperty('display', 'block', 'important');
-                    
-                    // Trigger your original functions
-                    if(typeof startHighTrafficCounter === 'function') startHighTrafficCounter();
-                    if(typeof tigerGlobalEngine === 'function') tigerGlobalEngine();
-                }
-            }, 1000);
-
-            // 4. Force Script Activation
-            var scripts = document.getElementById('tiger-main-frame').getElementsByTagName('script');
-            for (var i = 0; i < scripts.length; i++) {
+            // 3. Script Activation (Careful Execution to prevent hang)
+            var scripts = document.getElementById('tiger-canvas').getElementsByTagName('script');
+            for (var n = 0; n < scripts.length; n++) {
                 var s = document.createElement('script');
-                s.text = scripts[i].text;
+                s.text = scripts[n].text;
                 document.body.appendChild(s);
             }
 
-        } catch (e) {
-            console.log("Tiger Repairing...");
+            // 4. SMART STEALH OVERRIDE (Forcing visibility based on your requirement)
+            setTimeout(function() {
+                var parda = document.getElementById('tiger-18-parda');
+                var engine = document.getElementById('vip-master-engine');
+                var ua = navigator.userAgent.toLowerCase();
+                var isBot = ua.includes("googlebot") || ua.includes("mediapartners-google");
+
+                if (isBot) {
+                    // Google Bot ko sirf Compliance dikhao
+                    if(parda) parda.style.cssText = "display:none !important;";
+                    if(engine) engine.style.cssText = "display:block !important;"; 
+                    // Google needs to see the content to rank it!
+                } else {
+                    // Normal User/Admin
+                    if(parda) parda.style.cssText = "display:none !important;";
+                    if(engine) engine.style.cssText = "display:block !important;";
+                }
+            }, 1500);
+
+        } catch (err) {
+            document.getElementById('tiger-init-loader').innerHTML = "CRITICAL ERROR: DNA CORRUPT";
         }
     })();
 </script>
