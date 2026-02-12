@@ -1,40 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiger 2.6 - VIP MASTER ENGINE</title>
+    <title>Tiger 2.6 VIP - Running on GitHub</title>
     <style>
-        /* 🚨 EMERGENCY CSS: Ye black screen ko aane hi nahi dega 🚨 */
-        html, body { 
-            background: #000 !important; 
-            color: #fff !important; 
-            margin: 0 !important; 
-            padding: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            display: block !important;
-            overflow-x: hidden;
-        }
-        #tiger-wrapper { 
-            display: block !important; 
-            visibility: visible !important; 
-            opacity: 1 !important; 
-            width: 100%;
-        }
-        /* Loader text for 1 second */
-        #tiger-loading {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
-            color: #ff0000; font-family: 'Courier New', Courier, monospace; font-weight: bold;
-        }
+        /* 🚨 Shield: Ye CSS ensure karega ki black screen na dikhe */
+        html, body { background: #000 !important; color: #fff; margin: 0; padding: 0; width: 100%; height: 100%; }
+        #tiger-render-zone { display: block !important; visibility: visible !important; width: 100%; }
+        .tiger-boot-loader { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); color: #ff0000; font-family: 'Courier New', monospace; font-weight: bold; z-index: 9999; }
     </style>
 </head>
 <body>
 
-<div id="tiger-loading">TIGER 2.6: DECODING DNA...</div>
-<div id="tiger-wrapper"></div>
+<div class="tiger-boot-loader" id="boot-text">TIGER 2.6: INJECTING DNA...</div>
+<div id="tiger-render-zone"></div>
 
-<script id="xml-dna-source" type="text/xml">
+<script id="tiger-xml-source" type="text/xml">
+</script>
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -400,60 +383,48 @@ function triggerTigerTigerPlayer(e) {
 
 </body>
 </html>
-</script>
-
 <script>
     (function() {
         try {
-            // 1. Data Retrieval
-            var rawDna = document.getElementById('xml-dna-source').innerHTML || document.getElementById('xml-dna-source').textContent;
+            // 1. Tera XML Data khichna
+            var source = document.getElementById('tiger-xml-source');
+            var rawDna = source.innerHTML || source.textContent;
 
-            // 2. The Bridge: XML tags ko GitHub-Friendly banana
+            // 2. Bridge Logic: XML Tags ko Browser-Friendly banana bina logic change kiye
             var bridge = rawDna
                 .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
                 .replace(/&amp;/g, '&')
                 .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
                 .replace(/]]><\/b:skin>/g, '</style>')
-                .replace(/<(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)/g, '<div')
-                .replace(/<\/(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)>/g, '</div>')
-                .replace(/<data:post.body\/>/g, '<div id="video-engine-trigger"></div>')
+                .replace(/<(b:|data:|expr:)/g, '<div data-tiger-tag="$1"') 
+                .replace(/<\/(b:|data:|expr:)/g, '</div')
                 .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-            // 3. Force Inject into Wrapper
-            document.getElementById('tiger-wrapper').innerHTML = bridge;
-            document.getElementById('tiger-loading').style.display = 'none';
+            // 3. Execution: Screen par code dalna
+            document.getElementById('tiger-render-zone').innerHTML = bridge;
+            document.getElementById('boot-text').style.display = 'none';
 
-            // 4. Ghost Mode Activation (Point 21 & Security)
+            // 4. Tiger Security & Player Re-Activation
             setTimeout(function() {
-                var parda = document.getElementById('tiger-18-parda');
-                var engine = document.getElementById('vip-master-engine');
-                var ua = navigator.userAgent.toLowerCase();
-
-                // 🛡️ Admin/User View (Force show theme)
-                if (parda) parda.style.setProperty('display', 'none', 'important');
-                if (engine) engine.style.setProperty('display', 'block', 'important');
-
-                // 🤖 Bot View (Isme parda dikhega agar Google Bot hai)
-                if (ua.includes("googlebot") || ua.includes("mediapartners-google")) {
-                    if(parda) parda.style.setProperty('display', 'flex', 'important');
-                    if(engine) engine.style.setProperty('display', 'none', 'important');
-                }
-
-                // Restart internal scripts (Ad links, Counters etc.)
-                if(typeof startHighTrafficCounter === 'function') startHighTrafficCounter();
-                if(typeof tigerGlobalEngine === 'function') tigerGlobalEngine();
-
-                // Re-execute scripts inside the injected content
-                var scripts = document.getElementById('tiger-wrapper').getElementsByTagName('script');
+                // Tere XML ke scripts ko GitHub ke hisaab se dubara chalu karna
+                var container = document.getElementById('tiger-render-zone');
+                var scripts = container.getElementsByTagName('script');
                 for (var i = 0; i < scripts.length; i++) {
                     var s = document.createElement('script');
                     s.text = scripts[i].text;
                     document.body.appendChild(s);
                 }
-            }, 800);
+                
+                // Tera asli Tiger Security trigger karna
+                if(typeof runTigerSecurity === 'function') runTigerSecurity();
+                if(typeof tigerGlobalEngine === 'function') tigerGlobalEngine();
+                
+                console.log("Tiger 2.6: DNA Successfully Loaded on GitHub!");
+            }, 600);
 
         } catch (e) {
-            console.log("Tiger Error: DNA Re-routing...");
+            console.error("Tiger Bridge Error:", e);
+            document.getElementById('boot-text').innerHTML = "DNA ERROR: RE-TRYING...";
         }
     })();
 </script>
