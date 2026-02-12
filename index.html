@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html>
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <title>Tiger 2.6 - VIP ENGINE</title>
+    <title>Tiger 2.6 - VIP THEME SETUP</title>
 </head>
-<body style="background:#000; margin:0; padding:0;">
+<body style="margin:0; padding:0; background:#000;">
 
-<script id="tiger-dna-store" type="text/xml">
+<div id="tiger-theme-layer"></div>
+
+<script id="xml-dna" type="text/xml">
+</script>
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -373,35 +375,19 @@ function triggerTigerTigerPlayer(e) {
 
 </body>
 </html>
-</script>
-
 <script>
-    (function() {
-        try {
-            var raw = document.getElementById('tiger-dna-store').innerHTML;
-            
-            // 🛠️ Cleaning Blogger tags for GitHub Browser Compatibility
-            var cleanCode = raw
-                .replace(/<b:include.*?\/?>/g, '') 
-                .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
-                .replace(/]]><\/b:skin>/g, '</style>')
+    // Ye script tere XML ko GitHub par "Zinda" karegi
+    var xmlContent = document.getElementById('xml-dna').innerHTML;
+    var result = xmlContent
+        .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+        .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
+        .replace(/]]><\/b:skin>/g, '</style>')
                 .replace(/<b:section.*?>|<b:widget.*?>|<\/b:section>|<\/b:widget>/g, '<div>')
-                .replace(/<data:post.body\/>/g, '<div id="tiger-video-body"></div>')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                .replace(/&amp;/g, '&');
-
-            document.open();
-            document.write(cleanCode);
-            document.close();
-
-            console.log("🐯 Tiger 2.6: Theme Loaded Successfully.");
-        } catch (e) {
-            console.error("Tiger Engine Boot Error");
-        }
-    })();
+                .replace(/<data:post.body\/>/g, '<div id="video-box"></div>');
+    
+    document.open();
+    document.write(result);
+    document.close();
 </script>
-
-<script src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'></script>
 </body>
 </html>
