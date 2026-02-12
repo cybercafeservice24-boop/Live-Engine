@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiger 2.6 - Engine Active</title>
+    <title>Tiger 2.6 - VIP THEME FIXED</title>
 </head>
-<body style="margin:0;padding:0;background:#000;color:#0f0;">
+<body style="margin:0;padding:0;background:#000;">
 
-<script id="tiger-xml-dna" type="text/xml">
-</script>
+<div id="tiger-live-view"></div>
+
+<script id="tiger-dna-store" type="text/xml">
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -374,44 +374,35 @@ function triggerTigerTigerPlayer(e) {
 
 </body>
 </html>
-<div id="tiger-viewport"></div>
+</script>
 
 <script>
     (function() {
-        try {
-            var dnaContainer = document.getElementById('tiger-xml-dna');
-            var rawXml = dnaContainer.innerHTML || dnaContainer.textContent;
+        // 1. Aapke Original XML ko bina chhede uthana
+        var xmlBox = document.getElementById('tiger-dna-store');
+        var rawXml = xmlBox.innerHTML || xmlBox.textContent;
 
-            // 1. XML TO HTML BRIDGE (BINA CODE CHHEDE)
-            var bridge = rawXml
-                .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-                .replace(/&amp;/g, '&')
-                // Blogger Skin Fix
-                .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
-                .replace(/]]><\/b:skin>/g, '</style>')
-                // Sabhi Blogger tags ko HTML divs mein badalna taaki browser hang na ho
-                .replace(/<(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)/g, '<div')
-                .replace(/<\/(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)>/g, '</div>')
-                // Video Engine Trigger
-                .replace(/<data:post.body\/>/g, '<div id="video-engine-v2"></div>')
-                .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
+        // 2. Engine Activation (Converting tags for GitHub browser ONLY)
+        var result = rawXml
+            .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&')
+            .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
+            .replace(/]]><\/b:skin>/g, '</style>')
+            .replace(/<(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)/g, '<div')
+            .replace(/<\/(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)>/g, '</div>')
+            .replace(/<data:post.body\/>/g, '<div id="video-trigger"></div>')
+            .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-            // 2. FORCE RENDER (Hang-Proof Method)
-            document.open();
-            document.write(bridge);
-            document.close();
+        // 3. Page par display karna (Aapka original code script tag mein safe hai)
+        document.getElementById('tiger-live-view').innerHTML = result;
 
-            // 3. TIGER SCRIPTS ACTIVATE
-            setTimeout(function() {
-                // Aapke XML ke andar ka runTigerSecurity function dhund kar chalana
-                if (typeof runTigerSecurity === 'function') {
-                    runTigerSecurity();
-                }
-            }, 1000);
-
-        } catch (e) {
-            document.body.innerHTML = "TIGER ENGINE ERROR: " + e.message;
-        }
+        // 4. Sabhi Functions (Bot Detection, etc.) ko dobara jagana
+        setTimeout(function() {
+            // Forcefully running your 'runTigerSecurity' function
+            if(typeof runTigerSecurity === 'function') {
+                runTigerSecurity();
+            }
+        }, 1000);
     })();
 </script>
 </body>
