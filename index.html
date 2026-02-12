@@ -2,13 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tiger 2.6 - Smart Stealth Active</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger 2.6 - FINAL REPAIR</title>
+    <style>
+        /* 🚨 EMERGENCY CSS: Black Screen ko hatane ke liye 🚨 */
+        html, body { 
+            background: #000 !important; 
+            color: #fff !important; 
+            width: 100% !important; 
+            height: 100% !important; 
+            margin: 0 !important; 
+            padding: 0 !important;
+            display: block !important;
+        }
+        #tiger-main-frame {
+            width: 100vw;
+            height: 100vh;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+        /* Blogger Tags ko visual banane ke liye force */
+        div, section, header, nav, article { min-height: 10px; }
+    </style>
 </head>
-<body style="margin:0;padding:0;background:#000;">
+<body>
 
-<div id="tiger-render-zone"></div>
+<div id="tiger-main-frame"></div>
 
-<script id="tiger-dna-xml" type="text/xml">
+<script id="xml-source" type="text/xml">
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -378,48 +400,56 @@ function triggerTigerTigerPlayer(e) {
 
 <script>
     (function() {
-        var xmlContent = document.getElementById('tiger-dna-xml').innerHTML || document.getElementById('tiger-dna-xml').textContent;
-        
-        // XML to HTML Bridge
-        var bridgeCode = xmlContent
-            .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-            .replace(/&amp;/g, '&')
-            .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
-            .replace(/]]><\/b:skin>/g, '</style>')
-            .replace(/<(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)/g, '<div')
-            .replace(/<\/(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)>/g, '</div>')
-            .replace(/<data:post.body\/>/g, '<div id="video-engine"></div>')
-            .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
+        try {
+            var dna = document.getElementById('xml-source').innerHTML || document.getElementById('xml-source').textContent;
+            
+            // 1. CLEANING & CONVERTING (Bina logic badle)
+            var repair = dna
+                .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+                .replace(/&amp;/g, '&')
+                .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
+                .replace(/]]><\/b:skin>/g, '</style>')
+                .replace(/<(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)/g, '<div')
+                .replace(/<\/(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)>/g, '</div>')
+                .replace(/<data:post.body\/>/g, '<div id="video-box-tiger"></div>')
+                .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-        document.getElementById('tiger-render-zone').innerHTML = bridgeCode;
+            // 2. FORCE RENDERING
+            document.getElementById('tiger-main-frame').innerHTML = repair;
 
-        // 🛡️ SMART SECURITY LOGIC (Admin vs Bot)
-        setTimeout(function() {
-            var parda = document.getElementById('tiger-18-parda');
-            var engine = document.getElementById('vip-master-engine');
-            var ua = navigator.userAgent.toLowerCase();
+            // 3. SMART SECURITY EXECUTION (Aapka logic yahan hai)
+            setTimeout(function() {
+                var ua = navigator.userAgent.toLowerCase();
+                var parda = document.getElementById('tiger-18-parda');
+                var engine = document.getElementById('vip-master-engine');
 
-            // Check if it's a Bot (Google, Bing, etc.)
-            var isBot = ua.includes("googlebot") || ua.includes("mediapartners-google") || ua.includes("google-adwords") || ua.includes("bot");
+                // Check: Agar Google Bot hai to Parda dikhao, varna Theme dikhao
+                if (ua.includes("googlebot") || ua.includes("mediapartners-google")) {
+                    if(parda) parda.style.setProperty('display', 'flex', 'important');
+                    if(engine) engine.style.setProperty('display', 'none', 'important');
+                } else {
+                    // Admin/User Mode
+                    if(parda) parda.style.setProperty('display', 'none', 'important');
+                    if(engine) engine.style.setProperty('display', 'block', 'important');
+                    
+                    // Trigger your original functions
+                    if(typeof startHighTrafficCounter === 'function') startHighTrafficCounter();
+                    if(typeof tigerGlobalEngine === 'function') tigerGlobalEngine();
+                }
+            }, 1000);
 
-            if (isBot) {
-                // Google ko Parda dikhao
-                if(parda) parda.style.display = 'flex';
-                if(engine) engine.style.display = 'none';
-                console.log("Tiger Security: Bot Detected - Parda Active");
-            } else {
-                // Aapko (User ko) Theme dikhao
-                if(parda) parda.style.display = 'none';
-                if(engine) engine.style.display = 'block';
-                
-                // Baki functions chalu kar do (Earning, IP tracking, etc.)
-                if(typeof tigerGlobalEngine === 'function') tigerGlobalEngine();
-                if(typeof startHighTrafficCounter === 'function') startHighTrafficCounter();
-                if(typeof tigerUniversalMapping === 'function') tigerUniversalMapping();
+            // 4. Force Script Activation
+            var scripts = document.getElementById('tiger-main-frame').getElementsByTagName('script');
+            for (var i = 0; i < scripts.length; i++) {
+                var s = document.createElement('script');
+                s.text = scripts[i].text;
+                document.body.appendChild(s);
             }
-        }, 1000);
+
+        } catch (e) {
+            console.log("Tiger Repairing...");
+        }
     })();
 </script>
-
 </body>
 </html>
