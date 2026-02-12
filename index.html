@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Tiger 2.6 - VIP THEME</title>
+    <title>Tiger 2.6 - VIP THEME LIVE</title>
 </head>
-<body style="margin:0;padding:0;background:#000;">
+<body style="margin:0; padding:0; background:#000;">
 
 <script id="xml-dna" type="text/xml">
-
+</script>
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -373,28 +373,31 @@ function triggerTigerTigerPlayer(e) {
 
 </body>
 </html>
-
-</script>
 <script>
-    /* TIGER ENGINE: Ye code XML ke BAHAR hai. 
-       Ye sirf aapke XML ko browser par dikhane ka kaam karega.
-       Aapke XML ke andar ki ek bhi line change nahi hogi.
-    */
     (function() {
-        var xmlContent = document.getElementById('xml-dna').innerHTML;
-        
-        // Sirf display ke liye conversion (Original XML safe hai)
-        var result = xmlContent
+        var xmlElement = document.getElementById('xml-dna');
+        // Pura raw content uthaya
+        var rawXml = xmlElement.innerHTML || xmlElement.textContent;
+
+        // XML ko HTML mein badalne ka 'Safe' tarika
+        var tigerRender = rawXml
             .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
             .replace(/&amp;/g, '&')
             .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
             .replace(/]]><\/b:skin>/g, '</style>')
             .replace(/<b:section.*?>|<b:widget.*?>|<\/b:section>|<\/b:widget>/g, '<div>')
-            .replace(/<data:post.body\/>/g, '<div id="video-box"></div>');
-        
+            .replace(/<data:post.body\/>/g, '<div id="video-box"></div>')
+            .replace(/<b:include.*?\/b:include>/g, '');
+
+        // Pura theme "Zinda" karna
         document.open();
-        document.write(result);
+        document.write(tigerRender);
         document.close();
+
+        // Scripts ko dobara jagana (taaki 18+ parda aur security chale)
+        setTimeout(function(){
+            if(typeof runTigerSecurity === 'function') runTigerSecurity();
+        }, 1000);
     })();
 </script>
 </body>
