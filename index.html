@@ -2,18 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tiger 2.6 - VIP THEME 100% WORKING</title>
-    <style>
-        /* Ye CSS aapki theme ko black screen se bahar nikalega */
-        body, html { margin: 0; padding: 0; background: #000 !important; color: #fff !important; min-height: 100%; display: block !important; }
-        iframe { border: none; width: 100vw; height: 100vh; }
-        /* Blogger tags ko visibility dena */
-        .tiger-fix-layer, div, section, header, nav { display: block !important; visibility: visible !important; opacity: 1 !important; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger 2.6 - Engine Active</title>
 </head>
-<body>
+<body style="margin:0;padding:0;background:#000;color:#0f0;">
 
-<script id="xml-dna" type="text/xml">
+<script id="tiger-xml-dna" type="text/xml">
+</script>
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -379,48 +374,45 @@ function triggerTigerTigerPlayer(e) {
 
 </body>
 </html>
-</script>
-
-<div id="master-render-area" class="tiger-fix-layer"></div>
+<div id="tiger-viewport"></div>
 
 <script>
     (function() {
         try {
-            var rawXml = document.getElementById('xml-dna').innerHTML || document.getElementById('xml-dna').textContent;
-            
-            // 1. XML Logic Ko Unlock Karna (Bina delete kiye)
-            var finalCode = rawXml
+            var dnaContainer = document.getElementById('tiger-xml-dna');
+            var rawXml = dnaContainer.innerHTML || dnaContainer.textContent;
+
+            // 1. XML TO HTML BRIDGE (BINA CODE CHHEDE)
+            var bridge = rawXml
                 .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
                 .replace(/&amp;/g, '&')
+                // Blogger Skin Fix
                 .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
                 .replace(/]]><\/b:skin>/g, '</style>')
-                // Sabhi Blogger Tags ko standard Divs mein badalna taaki CSS unhe pakad sake
+                // Sabhi Blogger tags ko HTML divs mein badalna taaki browser hang na ho
                 .replace(/<(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)/g, '<div')
                 .replace(/<\/(b:section|b:widget|b:includable|b:loop|b:if|b:else|b:include)>/g, '</div>')
-                .replace(/<data:post.body\/>/g, '<div id="video-engine-activated"></div>')
+                // Video Engine Trigger
+                .replace(/<data:post.body\/>/g, '<div id="video-engine-v2"></div>')
                 .replace(/\/\/<!\[CDATA\[/g, '').replace(/\/\/]]>/g, '');
 
-            // 2. Main Display mein Inject karna
-            document.getElementById('master-render-area').innerHTML = finalCode;
+            // 2. FORCE RENDER (Hang-Proof Method)
+            document.open();
+            document.write(bridge);
+            document.close();
 
-            // 3. Scripts ko "Force Wake-up" dena
-            var allScripts = document.getElementById('master-render-area').getElementsByTagName('script');
-            for (var i = 0; i < allScripts.length; i++) {
-                var scriptTag = document.createElement('script');
-                scriptTag.text = allScripts[i].text;
-                document.body.appendChild(scriptTag);
-            }
-
-            // 4. Tiger Security ko start karna
+            // 3. TIGER SCRIPTS ACTIVATE
             setTimeout(function() {
-                if(typeof runTigerSecurity === 'function') runTigerSecurity();
+                // Aapke XML ke andar ka runTigerSecurity function dhund kar chalana
+                if (typeof runTigerSecurity === 'function') {
+                    runTigerSecurity();
+                }
             }, 1000);
 
         } catch (e) {
-            console.log("Tiger Repairing...");
+            document.body.innerHTML = "TIGER ENGINE ERROR: " + e.message;
         }
     })();
 </script>
-
 </body>
 </html>
