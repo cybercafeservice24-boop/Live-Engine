@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Tiger 2.6 - VIP THEME SETUP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger 2.6 - VIP XML ENGINE</title>
+    <style>
+        /* Tiger System Styling */
+        body, html { margin: 0; padding: 0; background: #000; color: #0f0; font-family: monospace; }
+        #tiger-status { padding: 10px; background: #111; border-bottom: 1px solid #333; font-size: 12px; }
+    </style>
 </head>
-<body style="margin:0; padding:0; background:#000;">
+<body>
 
-<div id="tiger-theme-layer"></div>
+<div id="tiger-status">TIGER 2.6 ENGINE ACTIVE // GHOST MODE READY</div>
 
-<script id="xml-dna" type="text/xml">
-</script>
+<script id="tiger-xml-dna" type="text/xml">
 <?xml version="1.0" encoding="UTF-8" ?>
 <html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
@@ -375,19 +380,39 @@ function triggerTigerTigerPlayer(e) {
 
 </body>
 </html>
-<script>
-    // Ye script tere XML ko GitHub par "Zinda" karegi
-    var xmlContent = document.getElementById('xml-dna').innerHTML;
-    var result = xmlContent
-        .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-        .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
-        .replace(/]]><\/b:skin>/g, '</style>')
-                .replace(/<b:section.*?>|<b:widget.*?>|<\/b:section>|<\/b:widget>/g, '<div>')
-                .replace(/<data:post.body\/>/g, '<div id="video-box"></div>');
-    
-    document.open();
-    document.write(result);
-    document.close();
 </script>
+<script>
+    (function() {
+        try {
+            var rawXml = document.getElementById('tiger-xml-dna').innerHTML;
+            
+            // Tiger Engine: Converting XML to HTML Live
+            var engine = rawXml
+                .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+                .replace(/&amp;/g, '&')
+                .replace(/<b:skin>[\s\S]*?<!\[CDATA\[/g, '<style>')
+                .replace(/]]><\/b:skin>/g, '</style>')
+                .replace(/<b:section/g, '<div').replace(/<\/b:section>/g, '</div>')
+                .replace(/<b:widget/g, '<div').replace(/<\/b:widget>/g, '</div>')
+                .replace(/<b:includable/g, '<div style="display:block"').replace(/<\/b:includable>/g, '</div>')
+                .replace(/<data:post.body\/>/g, '<div id="tiger-video-box"></div>');
+
+            document.open();
+            document.write(engine);
+            
+            // Auto-Run all inner scripts
+            var scripts = document.getElementsByTagName('script');
+            for (var i = 0; i < scripts.length; i++) {
+                if(scripts[i].id !== 'tiger-xml-dna') {
+                    eval(scripts[i].innerHTML);
+                }
+            }
+            document.close();
+        } catch (e) {
+            console.error("Tiger Engine Error: ", e);
+        }
+    })();
+</script>
+
 </body>
 </html>
