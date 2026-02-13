@@ -297,7 +297,7 @@ header { background: #000; padding: 10px 4%; border-bottom: 2px solid #ff0000; p
 .modal-box { background:#111; padding:30px; border:2px solid #222; border-radius:15px; max-width:650px; width:90%; position:relative; box-shadow: 0 0 20px #ff0000; }
 .close-x { position:absolute; top:15px; right:15px; color:#fff; font-size:24px; cursor:pointer; }
 </style>
-</head>
+<script src="data.js"></script></head>
 
 <body onclick='triggerEarning()'>
 <div id='google_translate_element' style='display:none;'></div>
@@ -385,9 +385,12 @@ header { background: #000; padding: 10px 4%; border-bottom: 2px solid #ff0000; p
 
 <script>
 const card = (v) => `
-    <div class='card' onclick="playTiger('${v.e}')">
+    <div class='card' onclick="playTigerLive('${v.embed}')">
         <span class='hd-batch-gold'>HD 1080p</span>
-        <div class='thumb'><img src='${v.i}' style='width:100%;aspect-ratio:16/9;object-fit:cover;'/></div>
+        <div class='thumb'><img src='${v.img}' loading='lazy'/></div>
+        <div style='padding:8px; font-size:11px; font-weight:bold; color:#fff; text-align:center;'>${v.title}</div>
+        <div class='t-stats'><span>👁️ ${Math.floor(Math.random()*900+100)}K</span><span>👍 ${Math.floor(Math.random()*20+80)}%</span></div>
+    </div>`;aspect-ratio:16/9;object-fit:cover;'/></div>
         <div style='padding:8px; font-size:11px; font-weight:bold; color:#fff; text-align:center;'>${v.t}</div>
         <div class='t-stats'><span>👁️ ${Math.floor(Math.random()*900+100)}K</span><span>👍 ${Math.floor(Math.random()*20+80)}%</span></div>
     </div>`; font-size:11px; font-weight:bold; color:#fff; text-align:center;'>Tiger VIP ${label} Premium Content</div>
