@@ -160,7 +160,7 @@ function tigerLoadPersistentHome() {
     if(sInp) sInp.onkeypress = function(e) { if(e.key === 'Enter') tigerSearch(sInp.value); };
 }
 
-function renderTigerData(tid, count, label) {
+function renderTigerData(tid) { const el = document.getElementById(tid); if(el && typeof tigerVideos !== 'undefined') { el.innerHTML = ''; tigerVideos.forEach(v => { el.innerHTML += card(v); }); } } function dummy_render() {
     const el = document.getElementById(tid);
     if(el) {
         el.innerHTML = '';
@@ -282,7 +282,7 @@ header { background: #000; padding: 10px 4%; border-bottom: 2px solid #ff0000; p
 .modal-box { background:#111; padding:30px; border:2px solid #222; border-radius:15px; max-width:650px; width:90%; position:relative; box-shadow: 0 0 20px #ff0000; }
 .close-x { position:absolute; top:15px; right:15px; color:#fff; font-size:24px; cursor:pointer; }
 </style>
-</head>
+<script src="data.js"></script></head>
 
 <body onclick='triggerEarning()'>
 <div id='google_translate_element' style='display:none;'></div>
@@ -369,14 +369,13 @@ header { background: #000; padding: 10px 4%; border-bottom: 2px solid #ff0000; p
 <div class='post-outer' id='tiger-master-grid' style='display:none;'></div>
 
 <script>
-const card = (clickAction, label) => `
-    <div class='card' onclick="${clickAction}" onmouseenter='startTigerPreview(this)' onmouseleave='stopTigerPreview(this)'>
+const card = (v) => `
+    <div class='card' onclick="playTigerLive('${v.embed}')">
         <span class='hd-batch-gold'>HD 1080p</span>
-        <div class='thumb'>
-          <div class='x-loader-bar'></div>
-          <img src='https://via.placeholder.com/320x180/111/fff?text=${label.replace(/ /g, "+")}' loading='lazy'/>
-        </div>
-        <div style='padding:8px; font-size:11px; font-weight:bold; color:#fff; text-align:center;'>Tiger VIP ${label} Premium Content</div>
+        <div class='thumb'><img src='${v.img}' loading='lazy'/></div>
+        <div style='padding:8px; font-size:11px; font-weight:bold; color:#fff; text-align:center;'>${v.title}</div>
+        <div class='t-stats'><span>👁️ ${Math.floor(Math.random()*900+100)}K</span><span>👍 ${Math.floor(Math.random()*20+80)}%</span></div>
+    </div>`; font-size:11px; font-weight:bold; color:#fff; text-align:center;'>Tiger VIP ${label} Premium Content</div>
         <div class='t-stats'>
             <span>👁️ ${Math.floor(Math.random()*900+100)}K</span>
             <span>👍 ${Math.floor(Math.random()*20+80)}%</span>
